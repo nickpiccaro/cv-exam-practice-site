@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CV Physiology Exam Practice — 113 Questions with ECGs</title>
+<meta name="description" content="Unofficial practice exam for cardiovascular physiology: PV loops, Guyton curves, hemodynamics, muscle, 12-lead ECGs, autonomic control. Instant explanations and a strengths/weaknesses report.">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+:root{color-scheme:light;--bg:#f7f7f5;--card:#fff;--ink:#1d1d1f;--mute:#6b6b70;--line:#e3e3e0;--accent:#7a1f2b;--accent2:#a8323f;--ok:#1f7a4d;--okbg:#e8f5ee;--bad:#b42318;--badbg:#fdecea;--warn:#b26b00;--warnbg:#fff4e0;--sel:#f3e9ea}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:20px 18px 80px}
+h1{font-size:22px;margin:0 0 4px}
+h2{font-size:18px;margin:0 0 10px}
+h3{font-size:15px;margin:18px 0 8px}
+.sub{color:var(--mute);margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:14px}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:#fff;padding:8px 14px;color:var(--ink)}
+button:hover{border-color:#bbb}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+button.primary:hover{background:var(--accent2)}
+button.primary:disabled{opacity:.45;cursor:not-allowed}
+button.ghost{background:transparent;border-color:transparent;color:var(--mute)}
+button.ghost:hover{color:var(--ink)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.spacer{flex:1}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{border:1px solid var(--line);border-radius:999px;padding:6px 12px;background:#fff;cursor:pointer;user-select:none;font-size:14px}
+.chip.on{background:var(--sel);border-color:var(--accent);color:var(--accent);font-weight:600}
+.chip small{color:var(--mute);font-weight:400}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13px;color:var(--mute)}
+.bar{flex:1;height:6px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.tag{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;background:#f0f0ee;color:var(--mute);margin-right:6px}
+.stem{white-space:pre-wrap;font-size:16px;margin:6px 0 14px}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;padding:11px 14px;margin:7px 0;border:1.5px solid var(--line);border-radius:10px;background:#fff;cursor:pointer}
+.opt .k{flex:0 0 24px;height:24px;border-radius:50%;border:1.5px solid #c9c9c6;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--mute)}
+.opt .t{flex:1}
+.opt.sel{border-color:var(--accent);background:var(--sel)}
+.opt.sel .k{border-color:var(--accent);color:var(--accent)}
+.opt.correct{border-color:var(--ok);background:var(--okbg)}
+.opt.correct .k{border-color:var(--ok);background:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}
+.opt.wrong .k{border-color:var(--bad);background:var(--bad);color:#fff}
+.opt.locked{cursor:default}
+.why{display:block;font-size:13.5px;color:#444;margin-top:6px;padding-top:6px;border-top:1px dashed #d8d8d4}
+.conf{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--mute);margin-top:10px}
+.conf button{padding:5px 11px;font-size:13px}
+.conf button.on{background:var(--sel);border-color:var(--accent);color:var(--accent);font-weight:600}
+.verdict{font-weight:700;font-size:16px;margin:4px 0 8px}
+.verdict.ok{color:var(--ok)}.verdict.bad{color:var(--bad)}
+.expl{white-space:pre-wrap}
+.obj{font-size:13.5px;color:var(--mute);margin-top:10px}
+.chat{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.msgs{display:flex;flex-direction:column;gap:10px;margin-bottom:10px;max-height:460px;overflow:auto}
+.msg{padding:10px 13px;border-radius:10px;max-width:92%}
+.msg.u{align-self:flex-end;background:var(--sel)}
+.msg.a{align-self:flex-start;background:#f4f4f2}
+.msg.a p{margin:0 0 6px}.msg.a p:last-child{margin:0}
+.msg.a ul{margin:4px 0 6px 18px;padding:0}
+.chatin{display:flex;gap:8px}
+.chatin textarea{flex:1;font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:8px;resize:vertical;min-height:42px}
+.quick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.quick button{font-size:12.5px;padding:4px 10px;border-radius:99px;color:var(--mute)}
+.typing{color:var(--mute);font-style:italic;font-size:13px}
+.footer{position:sticky;bottom:0;background:linear-gradient(transparent,var(--bg) 30%);padding:16px 0 6px;display:flex;gap:10px;align-items:center}
+.kbd{font-size:12px;color:var(--mute)}
+.stat{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat div{background:#fafaf8;border:1px solid var(--line);border-radius:10px;padding:12px}
+.stat b{display:block;font-size:22px}
+.stat span{font-size:12.5px;color:var(--mute)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--mute)}
+.pill{font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px}
+.pill.s{background:var(--okbg);color:var(--ok)}.pill.m{background:var(--warnbg);color:var(--warn)}.pill.w{background:var(--badbg);color:var(--bad)}
+.chartbox{position:relative;height:300px}
+.chartbox.tall{height:520px}
+details{border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0;background:#fff}
+details summary{cursor:pointer;font-weight:600}
+.fig{display:flex;justify-content:center;margin:4px 0 12px}
+.note{font-size:13px;color:var(--mute)}
+.hidden{display:none!important}
+@media (max-width:600px){.stat{grid-template-columns:repeat(2,1fr)}}
+.ecg{margin:4px 0 6px;border:1px solid #efc9c9;border-radius:8px;overflow:hidden;cursor:zoom-in;background:#fff8f8}
+.ecg svg{display:block;width:100%;height:auto}
+.ecghint{font-size:12px;color:var(--mute);margin:0 0 12px}
+.modal{position:fixed;inset:0;background:rgba(20,20,20,.55);z-index:50;display:flex;flex-direction:column}
+.modal .mbar{background:#fff;padding:8px 12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.modal .mbody{flex:1;overflow:auto;background:#fff8f8;padding:8px}
+.modal .mbody svg{display:block}
+.modal .calread{font-size:13px;font-weight:600;color:var(--accent)}
+.modal button.on{background:var(--sel);border-color:var(--accent);color:var(--accent);font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script src="ecg.js"></script>
+<script src="q-pv.js"></script>
+<script src="q-gc.js"></script>
+<script src="q-hm.js"></script>
+<script src="q-mm.js"></script>
+<script src="q-ecg.js"></script>
+<script src="q-ai.js"></script>
+<script>
+const QUESTIONS = window.QBANK;
+const STORE = 'cv-exam-practice-v1';
+const TOPIC_ORDER = ["Cardiac Cycle & PV Loops","Cardiac Output & Guyton Curves","Hemodynamics, Microcirculation & Special Circulations","Membrane Potentials & Muscle","Electrophysiology & ECG","Autonomic Control & CV Integration"];
+const SHORT = {"Cardiac Cycle & PV Loops":"Cardiac cycle & PV loops","Cardiac Output & Guyton Curves":"CO & Guyton curves","Hemodynamics, Microcirculation & Special Circulations":"Hemodynamics & microcirc","Membrane Potentials & Muscle":"Membrane potentials & muscle","Electrophysiology & ECG":"Electrophysiology & ECG","Autonomic Control & CV Integration":"Autonomic & integration"};
+const byId = Object.fromEntries(QUESTIONS.map(q=>[q.id,q]));
+const app = document.getElementById('app');
+let S = load() || null;
+let charts = [];
+
+function load(){try{const s=JSON.parse(localStorage.getItem(STORE));if(!s||!s.order)return null;
+  // migrate: drop unknown ids, append newly added questions to an existing full session
+  s.order=s.order.filter(id=>byId[id]);
+  const fresh=QUESTIONS.filter(q=>!s.perm[q.id]).map(q=>q.id);
+  if(fresh.length&&s.order.length>=60){fresh.sort(()=>Math.random()-.5).forEach(id=>{const q=byId[id];const idx=q.choices.map((_,i)=>i);s.perm[id]=q.choices.every(c=>/^Point [A-E]\b/.test(c))?idx:idx.sort(()=>Math.random()-.5);s.order.push(id)});s.done=false}
+  return s}catch(e){return null}}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(S))}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function md(t){ // tiny markdown: bold, italics, bullets, paragraphs
+  const lines=esc(t).split(/\n/);let out='',inList=false;
+  for(let l of lines){
+    l=l.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/(^|[^*])\*(?!\s)(.+?)\*/g,'$1<i>$2</i>');
+    if(/^\s*([-•*]|\d+\.)\s+/.test(l)){if(!inList){out+='<ul>';inList=true}out+='<li>'+l.replace(/^\s*([-•*]|\d+\.)\s+/,'')+'</li>'}
+    else{if(inList){out+='</ul>';inList=false}if(l.trim())out+='<p>'+l.replace(/^#+\s*/,'')+'</p>'}
+  }
+  if(inList)out+='</ul>';return out;
+}
+function destroyCharts(){charts.forEach(c=>c.destroy());charts=[]}
+
+/* ---------- PV loop figure ---------- */
+function pvloopSVG(){
+  const W=420,H=300,L=50,B=255,R=400,T=20;
+  const x=v=>L+(v/160)*(R-L), y=p=>B-(p/140)*(B-T);
+  let edp='';for(let v=15;v<=150;v+=3){const p=0.6*(Math.exp(0.024*(v-15))-1)+ (v>15?1:0);edp+=(edp?'L':'M')+x(v).toFixed(1)+' '+y(Math.min(p,60)).toFixed(1)}
+  const loop=`M${x(50)} ${y(5)} C ${x(75)} ${y(4)}, ${x(105)} ${y(6)}, ${x(120)} ${y(10)} L ${x(120)} ${y(80)} C ${x(117)} ${y(112)}, ${x(105)} ${y(121)}, ${x(95)} ${y(120)} C ${x(78)} ${y(118)}, ${x(58)} ${y(110)}, ${x(50)} ${y(100)} Z`;
+  const pts=[['A',50,5,-16,14],['B',120,10,8,14],['C',120,80,8,4],['D',95,120,-4,-10],['E',50,100,-18,-4]];
+  let ticks='';for(let v=0;v<=160;v+=40)ticks+=`<text x="${x(v)}" y="${B+16}" font-size="11" text-anchor="middle" fill="#6b6b70">${v}</text>`;
+  for(let p=0;p<=140;p+=20)ticks+=`<text x="${L-8}" y="${y(p)+4}" font-size="11" text-anchor="end" fill="#6b6b70">${p}</text><line x1="${L}" x2="${R}" y1="${y(p)}" y2="${y(p)}" stroke="#eee"/>`;
+  return `<svg viewBox="0 0 ${W} ${H+16}" width="100%" style="max-width:440px" role="img" aria-label="LV pressure-volume loop">
+  ${ticks}<line x1="${L}" y1="${B}" x2="${R}" y2="${B}" stroke="#999"/><line x1="${L}" y1="${B}" x2="${L}" y2="${T}" stroke="#999"/>
+  <path d="${edp}" fill="none" stroke="#8a8a8a" stroke-dasharray="5 4"/><text x="${x(146)}" y="${y(34)}" font-size="11" fill="#6b6b70" text-anchor="end">EDPVR</text>
+  <line x1="${x(10)}" y1="${y(0)}" x2="${x(58)}" y2="${y(120)}" stroke="#8a8a8a" stroke-dasharray="5 4"/><text x="${x(60)}" y="${y(128)}" font-size="11" fill="#6b6b70">ESPVR</text>
+  <path d="${loop}" fill="rgba(122,31,43,.06)" stroke="#7a1f2b" stroke-width="2.2"/>
+  ${pts.map(([n,v,p,dx,dy])=>`<circle cx="${x(v)}" cy="${y(p)}" r="4.5" fill="#7a1f2b"/><text x="${x(v)+dx}" y="${y(p)+dy}" font-size="14" font-weight="700" fill="#1d1d1f">${n}</text>`).join('')}
+  <text x="${(L+R)/2}" y="${H+12}" font-size="12" text-anchor="middle" fill="#444">LV volume (mL)</text>
+  <text x="14" y="${(T+B)/2}" font-size="12" text-anchor="middle" fill="#444" transform="rotate(-90 14 ${(T+B)/2})">LV pressure (mmHg)</text></svg>`;
+}
+
+/* ---------- ECG tracings ---------- */
+const ecgCache={};
+function ecgSVG(q){return ecgCache[q.id]||(ecgCache[q.id]=ECG.render(q.ecg))}
+function ecgBlock(q){
+  const is12=(q.ecg.layout||'12')==='12';
+  return `<div class="ecg" onclick="openECG('${q.id}')" title="Click to enlarge and measure">${ecgSVG(q)}</div>
+  <p class="ecghint">${is12?'12-lead ECG with lead II rhythm strip':'Rhythm strip ('+(q.ecg.leads||['II']).join(', ')+')'} · 25 mm/s, 10 mm/mV · <b>click to enlarge &amp; use calipers</b></p>`;
+}
+function openECG(id){
+  const q=byId[id];let zoom=1.6,calOn=true,pts=[];
+  const m=document.createElement('div');m.className='modal';
+  m.innerHTML=`<div class="mbar"><b>ECG</b><button data-z="-">−</button><span id="zl"></span><button data-z="+">+</button>
+    <button id="calb" class="on">📏 Calipers</button><span class="calread" id="calr">Click two points to measure an interval</span><span class="spacer"></span><button id="mclose" class="primary">Close (Esc)</button></div>
+    <div class="mbody" id="mbody">${ecgSVG(q)}</div>`;
+  document.body.appendChild(m);
+  const svg=m.querySelector('svg'),W=+svg.getAttribute('width'),H=+svg.getAttribute('height');
+  const g=document.createElementNS('http://www.w3.org/2000/svg','g');svg.appendChild(g);
+  const setZ=()=>{svg.setAttribute('width',W*zoom);svg.setAttribute('height',H*zoom);m.querySelector('#zl').textContent=Math.round(zoom*100)+'%'};setZ();
+  m.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{zoom=Math.max(.6,Math.min(3,zoom+(b.dataset.z==='+'?.3:-.3)));setZ()});
+  const close=()=>{m.remove();document.removeEventListener('keydown',esc,true)};
+  const esc=e=>{if(e.key==='Escape'){e.stopPropagation();close()}};document.addEventListener('keydown',esc,true);
+  m.querySelector('#mclose').onclick=close;
+  m.querySelector('#calb').onclick=e=>{calOn=!calOn;e.target.classList.toggle('on',calOn);pts=[];g.innerHTML='';m.querySelector('#calr').textContent=calOn?'Click two points to measure an interval':''};
+  svg.addEventListener('click',e=>{
+    if(!calOn)return;const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const s=p.matrixTransform(svg.getScreenCTM().inverse());
+    if(pts.length>=2){pts=[];g.innerHTML=''}
+    pts.push(s.x);
+    g.innerHTML+=`<line x1="${s.x}" x2="${s.x}" y1="0" y2="${H}" stroke="#1f5fbf" stroke-width="1.2" stroke-dasharray="4 3"/>`;
+    if(pts.length===2){const ms=Math.abs(pts[1]-pts[0])*10;// 4 px/mm, 40 ms/mm
+      const y=Math.max(14,s.y-10);g.innerHTML+=`<line x1="${pts[0]}" x2="${pts[1]}" y1="${y}" y2="${y}" stroke="#1f5fbf" stroke-width="1.5"/>`;
+      m.querySelector('#calr').textContent=`Δ ${Math.round(ms)} ms  ·  ${(ms/40).toFixed(1)} small boxes  ·  if R–R: ${Math.round(60000/ms)}/min`}
+    else m.querySelector('#calr').textContent='Now click the second point';
+  });
+}
+
+/* ---------- Start screen ---------- */
+function renderStart(){
+  destroyCharts();
+  const counts={};QUESTIONS.forEach(q=>counts[q.topic]=(counts[q.topic]||0)+1);
+  const sel=new Set(TOPIC_ORDER);
+  const hasProgress=S&&S.order&&Object.keys(S.answers||{}).length>0&&!S.done;
+  app.innerHTML=`
+  <h1>Cardiology Exam Practice</h1>
+  <p class="sub">${QUESTIONS.length} original questions in the style of the retired CV exam items, QODs, small groups and ECG practice reads. Answer, read the explanation, then move on. A strengths/weaknesses report with charts is built as you go.</p>
+  ${hasProgress?`<div class="card"><div class="row"><div><b>Session in progress</b><div class="note">${Object.keys(S.answers).length} of ${S.order.length} answered</div></div><span class="spacer"></span><button onclick="viewReport()">View report so far</button><button class="primary" onclick="resume()">Resume</button></div></div>`:''}
+  <div class="card">
+    <h2>Topics</h2>
+    <div class="chips" id="chips">${TOPIC_ORDER.map(t=>`<span class="chip on" data-t="${esc(t)}">${esc(t)} <small>${counts[t]||0}</small></span>`).join('')}</div>
+    <div class="row" style="margin-top:14px">
+      <label class="note"><input type="checkbox" id="mix" checked> Shuffle topics together (exam-like)</label>
+      <span class="spacer"></span>
+      <span class="note" id="nsel"></span>
+      <button class="primary" id="go">${hasProgress?'Start new session':'Start'}</button>
+    </div>
+  </div>
+  <div class="card note">
+    <b style="color:var(--ink)">How it works</b><br>
+    • Keyboard: <b>1–5</b> pick an answer, <b>Enter</b> submits / goes next.<br>
+    • Tap <b>Sure</b> or <b>Unsure</b> before submitting — correct-but-unsure answers count as "shaky" in the report.<br>
+    • After each answer you see the full explanation, why each wrong option is wrong, and the learning objective${HAS_AI?'; use <b>Discuss</b> to ask the tutor follow-up questions':''}.<br>
+    • ECGs: click any tracing to enlarge it and use calipers.<br>
+    • Progress saves automatically in this browser; you can close this and resume later. Use <b>Finish &amp; report</b> any time.
+  </div>
+  <p class="note" style="text-align:center">Unofficial, student-made study aid for MEDC 30504 (Cell &amp; Organ Physiology) — not affiliated with or reviewed by course faculty. Questions are original and AI-assisted; they were checked but may contain errors, so verify against lecture materials. ECG tracings are computer-generated.</p>`;
+  const upd=()=>{const n=QUESTIONS.filter(q=>sel.has(q.topic)).length;document.getElementById('nsel').textContent=n+' questions';document.getElementById('go').disabled=!n};
+  document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{const t=c.dataset.t;sel.has(t)?sel.delete(t):sel.add(t);c.classList.toggle('on');upd()});
+  upd();
+  document.getElementById('go').onclick=()=>{
+    if(hasProgress&&!confirm('Start a new session? Your current progress will be replaced.'))return;
+    const mix=document.getElementById('mix').checked;
+    let ids=QUESTIONS.filter(q=>sel.has(q.topic)).map(q=>q.id);
+    ids=mix?shuffle(ids):TOPIC_ORDER.flatMap(t=>shuffle(ids.filter(i=>byId[i].topic===t)));
+    startSession(ids);
+  };
+}
+function startSession(ids){
+  const perm={};
+  ids.forEach(id=>{const q=byId[id];const idx=q.choices.map((_,i)=>i);perm[id]=q.choices.every(c=>/^Point [A-E]\b/.test(c))?idx:shuffle(idx)});
+  S={order:ids,perm,answers:{},chats:{},flags:{},pos:0,started:Date.now(),done:false};
+  save();renderQ();
+}
+function resume(){S.pos=Math.min(S.order.findIndex(id=>!S.answers[id]),S.order.length-1);if(S.pos<0)S.pos=S.order.length-1;renderQ()}
+
+/* ---------- Question screen ---------- */
+let cur={sel:null,conf:null,t0:0};
+function renderQ(){
+  destroyCharts();
+  const id=S.order[S.pos],q=byId[id],perm=S.perm[id],ans=S.answers[id];
+  const n=S.order.length,done=Object.keys(S.answers).length;
+  const right=Object.values(S.answers).filter(a=>a.correct).length;
+  cur={sel:ans?ans.choice:null,conf:ans?ans.conf:null,t0:Date.now()};
+  app.innerHTML=`
+  <div class="topbar"><span>Q ${S.pos+1} / ${n}</span><div class="bar"><i style="width:${done/n*100}%"></i></div><span>${right}/${done} correct</span>
+    <button class="ghost" onclick="renderStart()">Menu</button></div>
+  <div class="card" id="qcard">
+    <div class="row" style="margin-bottom:4px"><span class="tag" id="qtag">${ans?esc(q.topic)+' · '+esc(q.subtopic):'Question '+(S.pos+1)}</span><span class="tag">${'●'.repeat(q.difficulty)}${'○'.repeat(3-q.difficulty)}</span><span class="spacer"></span>
+      <button class="ghost" id="flag" title="Flag to review later">${S.flags[id]?'★ Flagged':'☆ Flag'}</button></div>
+    <div class="stem">${esc(q.stem)}</div>
+    ${q.figure==='pvloop'?`<div class="fig">${pvloopSVG()}</div>`:''}
+    ${q.ecg?ecgBlock(q):''}
+    <div id="opts">${perm.map((ci,k)=>`<button class="opt" data-ci="${ci}"><span class="k">${String.fromCharCode(65+k)}</span><span class="t">${esc(q.choices[ci])}<span class="why hidden"></span></span></button>`).join('')}</div>
+    <div class="conf" id="conf">Confidence: <button data-c="sure">Sure</button><button data-c="unsure">Unsure / guessed</button></div>
+    <div id="fb"></div>
+  </div>
+  <div class="footer">
+    <button onclick="prevQ()" ${S.pos===0?'disabled':''}>← Back</button>
+    <span class="kbd">1–5 select · Enter submit/next</span><span class="spacer"></span>
+    <button onclick="finish()">Finish &amp; report</button>
+    <button class="primary" id="act"></button>
+  </div>`;
+  document.getElementById('flag').onclick=()=>{S.flags[id]=!S.flags[id];save();document.getElementById('flag').textContent=S.flags[id]?'★ Flagged':'☆ Flag'};
+  document.querySelectorAll('#conf button').forEach(b=>b.onclick=()=>{if(S.answers[id])return;cur.conf=b.dataset.c;paintConf()});
+  document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(S.answers[id])return;cur.sel=+b.dataset.ci;paintSel()});
+  if(ans)showFeedback(false);else{paintSel();paintConf()}
+  window.scrollTo(0,0);
+}
+function paintSel(){document.querySelectorAll('.opt').forEach(b=>b.classList.toggle('sel',+b.dataset.ci===cur.sel));const a=document.getElementById('act');a.textContent='Submit';a.disabled=cur.sel===null;a.onclick=submit}
+function paintConf(){document.querySelectorAll('#conf button').forEach(b=>b.classList.toggle('on',b.dataset.c===cur.conf))}
+function submit(){
+  const id=S.order[S.pos],q=byId[id];if(cur.sel===null||S.answers[id])return;
+  S.answers[id]={choice:cur.sel,correct:cur.sel===q.answer,conf:cur.conf||'unrated',ms:Date.now()-cur.t0,at:Date.now()};
+  save();showFeedback(true);
+}
+function showFeedback(fresh){
+  const id=S.order[S.pos],q=byId[id],a=S.answers[id];
+  document.getElementById('qtag').textContent=q.topic+' · '+q.subtopic;
+  document.querySelectorAll('.opt').forEach(b=>{
+    const ci=+b.dataset.ci;b.classList.add('locked');b.classList.remove('sel');
+    if(ci===q.answer)b.classList.add('correct');else if(ci===a.choice)b.classList.add('wrong');
+    const w=b.querySelector('.why');
+    if(ci!==q.answer&&q.whyWrong[ci]){w.textContent=q.whyWrong[ci];w.classList.remove('hidden');if(ci!==a.choice)w.style.opacity=.85}
+  });
+  document.querySelectorAll('#conf button').forEach(b=>{b.disabled=true;b.classList.toggle('on',b.dataset.c===a.conf)});
+  const fb=document.getElementById('fb');
+  fb.innerHTML=`<div style="margin-top:16px;border-top:1px solid var(--line);padding-top:14px">
+    <div class="verdict ${a.correct?'ok':'bad'}">${a.correct?(a.conf==='unsure'?'Correct — but you marked it unsure':'Correct'):'Incorrect'}</div>
+    <div class="expl">${esc(q.explanation)}</div>
+    <div class="obj"><b>Objective:</b> ${esc(q.objective)}<br><b>Source:</b> ${esc(q.source)}</div>
+    ${HAS_AI?`<div class="row" style="margin-top:12px"><button id="discussBtn">💬 Discuss this question</button></div>
+    <div class="chat hidden" id="chat">
+      <div class="msgs" id="msgs"></div>
+      <div class="quick" id="quick">
+        <button>Why is my answer wrong?</button><button>Walk me through the mechanism step by step</button><button>How would this look on a PV loop / Guyton curve?</button><button>Give me a similar question to try</button>
+      </div>
+      <div class="chatin"><textarea id="cin" placeholder="Ask anything about this question…"></textarea><button class="primary" id="csend">Send</button></div>
+    </div>`:''}</div>`;
+  const chat=document.getElementById('chat');
+  if(chat){document.getElementById('discussBtn').onclick=()=>{chat.classList.toggle('hidden');if(!chat.classList.contains('hidden'))document.getElementById('cin').focus()};
+  document.querySelectorAll('#quick button').forEach(b=>b.onclick=()=>sendChat(b.textContent));
+  document.getElementById('csend').onclick=()=>sendChat();
+  document.getElementById('cin').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat()}e.stopPropagation()});
+  if((S.chats[id]||[]).length){chat.classList.remove('hidden');paintChat()}}
+  const act=document.getElementById('act');
+  act.disabled=false;act.textContent=S.pos<S.order.length-1?'Next →':'See report';act.onclick=nextQ;
+}
+function nextQ(){if(S.pos<S.order.length-1){S.pos++;save();renderQ()}else finish()}
+function prevQ(){if(S.pos>0){S.pos--;save();renderQ()}}
+
+/* ---------- Discussion (askClaude) ---------- */
+const HAS_AI=!!(window.cowork&&window.cowork.askClaude);
+function externalPrompt(q,a,text){
+  const L=['I am a first-year medical student studying cardiovascular physiology (PV loops, Guyton curves with VR = (Pms − Pra)/RVR, Starling forces, ECGs). Please tutor me on this practice question. Treat the answer key as correct, find my misconception, and explain the mechanism step by step as an arrow chain. Keep it focused.','',
+    'QUESTION: '+q.stem];
+  if(q.figure==='pvloop')L.push('(Figure: normal LV PV loop. A = mitral opens ~50 mL/5 mmHg; B = mitral closes/end-diastole ~120 mL/10 mmHg; C = aortic opens ~120 mL/80 mmHg; D = peak systolic ~95 mL/120 mmHg; E = aortic closes/end-systole ~50 mL/100 mmHg.)');
+  if(q.ecg)L.push('(An ECG tracing was shown; its findings are those described in the explanation below.)');
+  L.push('','OPTIONS:',...q.choices.map(c=>'- '+c),'','CORRECT ANSWER: '+q.choices[q.answer],'MY ANSWER: '+q.choices[a.choice]+(a.correct?' (correct)':' (incorrect)'));
+  if(!a.correct&&q.whyWrong[a.choice])L.push('Why my answer is wrong (per key): '+q.whyWrong[a.choice]);
+  L.push('','EXPLANATION: '+q.explanation,'','MY QUESTION: '+text);
+  return L.join('\n');
+}
+function openClaude(p){
+  try{navigator.clipboard&&navigator.clipboard.writeText(p)}catch(e){}
+  window.open('https://claude.ai/new?q='+encodeURIComponent(p.slice(0,6000)),'_blank','noopener');
+}
+function paintChat(){
+  const id=S.order[S.pos],m=S.chats[id]||[];
+  document.getElementById('msgs').innerHTML=m.map(x=>`<div class="msg ${x.r}">${x.r==='a'?md(x.t):esc(x.t)}</div>`).join('');
+  const el=document.getElementById('msgs');el.scrollTop=el.scrollHeight;
+}
+async function sendChat(text){
+  const id=S.order[S.pos],q=byId[id],a=S.answers[id];
+  const inp=document.getElementById('cin');text=(text||inp.value).trim();if(!text)return;inp.value='';
+  if(!HAS_AI){ // public website: hand off to Claude with the question pre-loaded
+    const p=externalPrompt(q,a,text);openClaude(p);
+    S.chats[id]=S.chats[id]||[];S.chats[id].push({r:'u',t:text},{r:'a',t:'Opened **Claude** in a new tab with this question, your answer and the explanation pre-loaded (also copied to your clipboard — paste it into any AI chat if the tab did not open).'});save();paintChat();return;
+  }
+  S.chats[id]=S.chats[id]||[];S.chats[id].push({r:'u',t:text});save();paintChat();
+  const msgs=document.getElementById('msgs');const ty=document.createElement('div');ty.className='typing';ty.textContent='Tutor is thinking…';msgs.appendChild(ty);msgs.scrollTop=msgs.scrollHeight;
+  const ctx={question:q.stem,figure:q.figure==='pvloop'?'Normal LV PV loop: A = mitral opens (~50 mL, 5 mmHg); B = mitral closes/end-diastole (~120 mL, 10 mmHg); C = aortic opens (~120 mL, 80 mmHg); D = peak systolic pressure (~95 mL, 120 mmHg); E = aortic closes/end-systole (~50 mL, 100 mmHg)':null,
+    ecg_tracing:q.ecg?('The student is looking at a rendered '+((q.ecg.layout||'12')==='12'?'12-lead ECG with lead II rhythm strip':'rhythm strip')+' at 25 mm/s, 10 mm/mV. Its findings are exactly those described in the explanation. Generator parameters (rate/min, PR ms, QT ms, rhythm, QRS type, ST vector etc.): '+JSON.stringify(q.ecg)):null,
+    options:q.choices,correct_answer:q.choices[q.answer],student_answer:q.choices[a.choice],student_was_correct:a.correct,student_confidence:a.conf,
+    explanation:q.explanation,why_each_wrong_option_is_wrong:q.choices.map((c,i)=>i===q.answer?null:{option:c,why:q.whyWrong[i]}).filter(Boolean),topic:q.topic+' / '+q.subtopic,objective:q.objective};
+  const hist=S.chats[id].slice(0,-1).map(x=>(x.r==='u'?'Student: ':'Tutor: ')+x.t).join('\n\n');
+  const prompt="You are a warm, rigorous cardiovascular physiology tutor for a first-year medical student (Pritzker Cell & Organ Physiology, cardiology exam this week). The course teaches with PV loops, Guyton curves (VR = (Pms − Pra)/RVR, mean systemic pressure, stressed volume, venomotor tone), Starling forces, and stepwise mechanism chains (e.g. ↓Pms → ↓preload → ↓SV → ↓CO → ↓BP). Data item 1 is the practice question with its answer key and explanation (treat the key as correct). Data item 2 is the conversation so far. Data item 3 is the student's new message. Reply directly to the new message: diagnose the misconception if there is one, explain the mechanism as a clear arrow chain where helpful, and keep it focused (about 80–200 words unless they ask for more). If asked for a similar question, write one new MCQ with 4–5 options and do NOT reveal the answer until they respond. Use plain text with short bullets or **bold** only; no headings.";
+  let reply;
+  try{
+    if(!window.cowork||!window.cowork.askClaude)throw new Error('Discussion is only available when this page is opened inside Claude (Cowork).');
+    const r=await window.cowork.askClaude(prompt,[ctx,hist||'(no previous messages)',text]);
+    reply=r.isError?('Sorry — the tutor could not respond ('+(r.text||'error')+'). Try again.'):r.text;
+  }catch(e){reply=String(e.message||e)}
+  ty.remove();S.chats[id].push({r:'a',t:reply});save();paintChat();
+}
+
+/* ---------- Report ---------- */
+function finish(){S.done=Object.keys(S.answers).length>=S.order.length;save();viewReport()}
+function viewReport(){
+  destroyCharts();
+  const ans=S.answers,ids=Object.keys(ans);
+  if(!ids.length){alert('Answer at least one question first.');return}
+  const agg=(key)=>{const m={};ids.forEach(id=>{const q=byId[id],k=key(q);m[k]=m[k]||{n:0,c:0,shaky:0,ms:0,missed:[]};const a=ans[id];m[k].n++;m[k].ms+=a.ms;if(a.correct){m[k].c++;if(a.conf==='unsure')m[k].shaky++}else m[k].missed.push(id)});return m};
+  const T=agg(q=>q.topic),ST=agg(q=>q.topic+'||'+q.subtopic);
+  const total=ids.length,right=ids.filter(i=>ans[i].correct).length,shaky=ids.filter(i=>ans[i].correct&&ans[i].conf==='unsure').length;
+  const overconf=ids.filter(i=>!ans[i].correct&&ans[i].conf==='sure').length;
+  const avgS=Math.round(ids.reduce((s,i)=>s+ans[i].ms,0)/total/1000);
+  // mastery: correct & sure =1, correct & unsure = .5, wrong = 0
+  const mastery=o=>o.n?((o.c-o.shaky*0.5)/o.n):0;
+  const band=p=>p>=0.8?['s','Strong']:p>=0.6?['m','Developing']:['w','Weak'];
+  const topics=TOPIC_ORDER.filter(t=>T[t]);
+  const subs=Object.entries(ST).map(([k,o])=>({topic:k.split('||')[0],sub:k.split('||')[1],...o,acc:o.c/o.n,mas:mastery(o)})).sort((a,b)=>a.mas-b.mas||b.n-a.n);
+  const weakSubs=subs.filter(s=>s.mas<0.6), strongSubs=subs.filter(s=>s.mas>=0.8).reverse();
+  const flagged=Object.keys(S.flags).filter(k=>S.flags[k]);
+  app.innerHTML=`
+  <div class="row"><h1>Performance report</h1><span class="spacer"></span><button onclick="renderStart()">Menu</button>${!S.done?'<button class="primary" onclick="resume()">Continue quiz</button>':''}</div>
+  <p class="sub">${total} of ${S.order.length} questions answered${S.done?'':' (partial — keep going for a fuller picture)'}.</p>
+  <div class="card"><div class="stat">
+    <div><b>${Math.round(right/total*100)}%</b><span>${right}/${total} correct</span></div>
+    <div><b>${shaky}</b><span>correct but unsure (shaky)</span></div>
+    <div><b>${overconf}</b><span>wrong but "sure" (blind spots)</span></div>
+    <div><b>${avgS}s</b><span>avg time / question</span></div>
+  </div></div>
+  <div class="card"><h2>By topic</h2><p class="note" style="margin-top:-4px">Bar = % correct. Dark segment = confident mastery (correct and not marked unsure).</p><div class="chartbox"><canvas id="c1"></canvas></div></div>
+  <div class="card"><h2>By subtopic</h2><div class="chartbox tall" id="c2box"><canvas id="c2"></canvas></div></div>
+  <div class="card">
+    <h2>Where to focus</h2>
+    ${weakSubs.length?`<h3 style="color:var(--bad)">Weak (mastery &lt; 60%)</h3><ul>${weakSubs.map(s=>`<li><b>${esc(s.sub)}</b> <span class="note">(${esc(SHORT[s.topic])})</span> — ${s.c}/${s.n} correct${s.shaky?`, ${s.shaky} shaky`:''}</li>`).join('')}</ul>`:'<p>No weak subtopics so far. 🎯</p>'}
+    ${strongSubs.length?`<h3 style="color:var(--ok)">Strong (mastery ≥ 80%)</h3><p>${strongSubs.map(s=>esc(s.sub)).join(' · ')}</p>`:''}
+    <div class="row" style="margin-top:12px">${HAS_AI?'<button id="planBtn">✨ Generate a study plan from my results</button>':''}<button id="copyBtn">Copy results summary</button></div>
+    <div id="plan" class="msg a hidden" style="max-width:100%;margin-top:12px"></div>
+  </div>
+  <div class="card"><h2>Topic table</h2><table><tr><th>Topic</th><th>Correct</th><th>Shaky</th><th>Mastery</th><th></th></tr>
+    ${topics.map(t=>{const o=T[t],m=mastery(o),b=band(m);return `<tr><td>${esc(t)}</td><td>${o.c}/${o.n}</td><td>${o.shaky}</td><td>${Math.round(m*100)}%</td><td><span class="pill ${b[0]}">${b[1]}</span></td></tr>`}).join('')}
+  </table></div>
+  <div class="card"><h2>Review missed${flagged.length?' & flagged':''} questions</h2>
+    ${ids.filter(i=>!ans[i].correct||S.flags[i]).map(i=>{const q=byId[i],a=ans[i];return `<details><summary>${a.correct?'★':'✗'} ${esc(SHORT[q.topic])} · ${esc(q.subtopic)}</summary>
+      <div class="stem" style="font-size:14.5px">${esc(q.stem)}</div>${q.figure==='pvloop'?`<div class="fig">${pvloopSVG()}</div>`:''}${q.ecg?ecgBlock(q):''}
+      <p><b>Your answer:</b> ${esc(q.choices[a.choice])}${a.correct?'':` <span class="note">— ${esc(q.whyWrong[a.choice])}</span>`}</p>
+      <p><b style="color:var(--ok)">Correct:</b> ${esc(q.choices[q.answer])}</p><div class="expl note" style="color:#333">${esc(q.explanation)}</div>
+      <div class="row" style="margin-top:8px"><button onclick="jumpTo('${i}')">Open question</button></div></details>`}).join('')||'<p class="note">Nothing missed yet.</p>'}
+    <div class="row" style="margin-top:12px">${ids.some(i=>!ans[i].correct)?'<button class="primary" onclick="retryMissed()">Retry missed questions</button>':''}<button onclick="retryWeak()">New session: weak topics only</button></div>
+  </div>`;
+  // charts
+  const c1=new Chart(document.getElementById('c1'),{type:'bar',data:{labels:topics.map(t=>SHORT[t]),datasets:[
+    {label:'Confident mastery %',data:topics.map(t=>Math.round(mastery(T[t])*100)),backgroundColor:topics.map(t=>{const m=mastery(T[t]);return m>=.8?'#1f7a4d':m>=.6?'#d08a1b':'#b42318'}),stack:'s',barThickness:22},
+    {label:'Accuracy %',data:topics.map(t=>Math.round(T[t].c/T[t].n*100)-Math.round(mastery(T[t])*100)),backgroundColor:'rgba(120,120,120,.25)',stack:'s',barThickness:22}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,max:100,min:0,ticks:{callback:v=>v+'%'}},y:{stacked:true}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const t=topics[c.dataIndex];return c.datasetIndex===0?`Mastery ${Math.round(mastery(T[t])*100)}%`:`Accuracy ${Math.round(T[t].c/T[t].n*100)}% (${T[t].c}/${T[t].n})`}}}}}});
+  const sorted=subs.slice().sort((a,b)=>TOPIC_ORDER.indexOf(a.topic)-TOPIC_ORDER.indexOf(b.topic)||a.mas-b.mas);
+  document.getElementById('c2box').style.height=Math.max(260,sorted.length*26+60)+'px';
+  const c2=new Chart(document.getElementById('c2'),{type:'bar',data:{labels:sorted.map(s=>s.sub),datasets:[{label:'Mastery %',data:sorted.map(s=>Math.round(s.mas*100)),backgroundColor:sorted.map(s=>s.mas>=.8?'#1f7a4d':s.mas>=.6?'#d08a1b':'#b42318'),barThickness:16}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{x:{max:100,min:0,ticks:{callback:v=>v+'%'}}},plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>sorted[c[0].dataIndex].sub+' — '+SHORT[sorted[c[0].dataIndex].topic],label:c=>{const s=sorted[c.dataIndex];return `${s.c}/${s.n} correct${s.shaky?`, ${s.shaky} shaky`:''} · mastery ${Math.round(s.mas*100)}%`}}}}}});
+  charts.push(c1,c2);
+  const summary=()=>[`CV practice exam: ${right}/${total} correct (${Math.round(right/total*100)}%), ${shaky} shaky, ${overconf} confident-but-wrong.`,
+    'By topic: '+topics.map(t=>`${SHORT[t]} ${T[t].c}/${T[t].n}`).join('; '),
+    'Weak subtopics: '+(weakSubs.map(s=>`${s.sub} (${s.c}/${s.n})`).join('; ')||'none'),
+    'Missed: '+ids.filter(i=>!ans[i].correct).map(i=>`${byId[i].subtopic} — ${byId[i].objective}`).join(' | ')].join('\n');
+  document.getElementById('copyBtn').onclick=async e=>{try{await navigator.clipboard.writeText(summary());e.target.textContent='Copied ✓'}catch(_){prompt('Copy this:',summary())}};
+  if(document.getElementById('planBtn'))document.getElementById('planBtn').onclick=async e=>{
+    const box=document.getElementById('plan');box.classList.remove('hidden');
+    if(!HAS_AI){openClaude('I am a first-year medical student preparing for a cardiovascular physiology exam. Here are my practice-exam results. Identify the 3–5 underlying misconceptions (group related misses); for each give the core idea to fix, a one-line arrow-chain rule, and a quick self-test question. End with a prioritized 90-minute review plan.\n\n'+summary());box.innerHTML='Opened <b>Claude</b> in a new tab with your results pre-loaded (also copied to your clipboard).';return}
+    box.innerHTML='<span class="typing">Building your plan…</span>';
+    try{
+      if(!window.cowork||!window.cowork.askClaude)throw new Error('Only available inside Claude (Cowork).');
+      const missed=ids.filter(i=>!ans[i].correct).map(i=>({subtopic:byId[i].subtopic,topic:byId[i].topic,objective:byId[i].objective,student_chose:byId[i].choices[ans[i].choice],correct:byId[i].choices[byId[i].answer]}));
+      const r=await window.cowork.askClaude("You are a cardiovascular physiology tutor. The student's cardiology exam is in 1–2 days. Data 1 is his per-topic and per-subtopic results; data 2 lists missed questions with what he chose vs the correct answer. Identify the 3–5 underlying misconceptions or concept gaps (group related misses), and for each give: the core idea to fix in 1–2 sentences, a one-line arrow-chain or rule to remember, and one quick self-test prompt. End with a prioritized 90-minute review plan. Plain text, short bullets, **bold** for headers of each gap. Under 400 words.",[summary(),missed]);
+      box.innerHTML=r.isError?'Could not generate plan.':md(r.text);
+    }catch(err){box.textContent=String(err.message||err)}
+  };
+  window.scrollTo(0,0);
+}
+function jumpTo(id){const i=S.order.indexOf(id);if(i>=0){S.pos=i;renderQ()}}
+function retryMissed(){const ids=shuffle(Object.keys(S.answers).filter(i=>!S.answers[i].correct));if(ids.length)startSession(ids)}
+function retryWeak(){
+  const T={};Object.keys(S.answers).forEach(id=>{const t=byId[id].topic;T[t]=T[t]||{n:0,c:0};T[t].n++;if(S.answers[id].correct)T[t].c++});
+  const weak=Object.keys(T).filter(t=>T[t].c/T[t].n<0.7);if(!weak.length){alert('No topics under 70% — nice work!');return}
+  if(!confirm('Start a new session with all questions from: '+weak.map(t=>SHORT[t]).join(', ')+'? (Current results will be replaced — copy your summary first if you want it.)'))return;
+  startSession(shuffle(QUESTIONS.filter(q=>weak.includes(q.topic)).map(q=>q.id)));
+}
+
+/* ---------- Keyboard ---------- */
+document.addEventListener('keydown',e=>{
+  if(!S||!document.getElementById('qcard'))return;
+  if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT'||document.querySelector('.modal'))return;
+  const id=S.order[S.pos];
+  if(/^[1-6]$/.test(e.key)&&!S.answers[id]){const b=document.querySelectorAll('.opt')[+e.key-1];if(b)b.click()}
+  else if(e.key==='Enter'){e.preventDefault();document.getElementById('act').click()}
+});
+
+renderStart();
+</script>
+</body>
+</html>
